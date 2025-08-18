@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teste Comportamental DISC</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --dominance: #e63946;
+      --influence: #f4a261;
+      --steadiness: #2a9d8f;
+      --compliance: #457b9d;
+      --light-bg: #f8f9fa;
+      --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light-bg);
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 800px;
+    }
+    
+    .header {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .progress-container {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .progress {
+      height: 12px;
+      background-color: #e9ecef;
+      border-radius: 6px;
+    }
+    
+    .progress-bar {
+      background: var(--primary-gradient);
+      transition: width 0.6s ease;
+    }
+    
+    .question-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .question-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    
+    .form-check-input:checked {
+      background-color: #6a11cb;
+      border-color: #6a11cb;
+    }
+    
+    .btn-primary {
+      background: var(--primary-gradient);
+      border: none;
+      padding: 0.5rem 1.5rem;
+      font-weight: 500;
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #5a0bb5, #1a66e0);
+    }
+    
+    .btn-outline-secondary {
+      padding: 0.5rem 1.5rem;
+      font-weight: 500;
+    }
+    
+    .result-container {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 2rem;
+      box-shadow: var(--card-shadow);
+      animation: fadeIn 0.8s ease;
+    }
+    
+    .profile-card {
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: white;
+      transition: transform 0.3s ease;
+    }
+    
+    .profile-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .dominance-card {
+      background: linear-gradient(135deg, var(--dominance), #c1121f);
+    }
+    
+    .influence-card {
+      background: linear-gradient(135deg, var(--influence), #e76f51);
+    }
+    
+    .steadiness-card {
+      background: linear-gradient(135deg, var(--steadiness), #1a936f);
+    }
+    
+    .compliance-card {
+      background: linear-gradient(135deg, var(--compliance), #1d3557);
+    }
+    
+    .dominant-badge {
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #ff9a00, #ff6b00);
+      color: white;
+      font-weight: 600;
+    }
+    
+    .chart-container {
+      height: 300px;
+      margin: 2rem 0;
+    }
+    
+    .trait-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    
+    .trait-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .trait-list li:last-child {
+      border-bottom: none;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .floating-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 99;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .option-label {
+      font-weight: 500;
+      margin-left: 8px;
+    }
+    
+    @media (max-width: 768px) {
+      .header {
+        padding: 1.5rem;
+      }
+      
+      .question-card, .result-container {
+        padding: 1.25rem;
+      }
+      
+      .profile-card {
+        padding: 1rem;
+      }
+    }
+    .navbar-custom {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+  color: white;
+  font-weight: 500;
+}
+
+.navbar-custom .nav-link:hover {
+  color: rgba(255,255,255,0.8);
+}
+
+.dropdown-menu {
+  border: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border-radius: 10px;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1.5rem;
+}
+
+.dropdown-item:hover {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+  </style>
+</head>
+<body>
+   <!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="inicio.html">
+      <i class="bi bi-stars me-2"></i>Desenvolvimento Pessoal
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-clipboard-check me-2"></i>Testes
+          </a>
+           <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="temperamento.html">
+                <i class="bi bi-emoji-smile me-2"></i>Temperamento
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="DISC.html">
+                <i class="bi bi-person-lines-fill me-2"></i>Perfil DISC
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="amor.html">
+                <i class="bi bi-heart-fill me-2"></i>Linguagem do Amor
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="canal.html">
+                <i class="bi bi-book-half me-2"></i>Canal de Aprendizagem
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="inteligencia.html">
+                <i class="bi bi-lightbulb me-2"></i>Tipos de Inteligência
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-4">
+  <div class="header text-center">
+    <h1 class="fw-bold mb-3">Teste Comportamental DISC</h1>
+    <p class="mb-0">Descubra seu perfil comportamental baseado na metodologia DISC reconhecida mundialmente</p>
+  </div>
+
+  <div class="progress-container">
+    <div class="d-flex justify-content-between mb-2">
+      <span>Progresso</span>
+      <span id="progressText">0%</span>
+    </div>
+    <div class="progress">
+      <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <form id="quizForm">
+    <div id="questions"></div>
+
+    <div class="d-flex justify-content-between mt-4">
+      <button type="button" class="btn btn-outline-secondary" id="prevBtn" disabled>
+        <i class="bi bi-arrow-left"></i> Anterior
+      </button>
+      <button type="button" class="btn btn-primary" id="nextBtn">
+        Próximo <i class="bi bi-arrow-right"></i>
+      </button>
+      <button type="submit" class="btn btn-success hidden" id="submitBtn">
+        <i class="bi bi-check-circle"></i> Ver Resultados
+      </button>
+    </div>
+  </form>
+
+  <div id="result" class="result-container d-none">
+    <!-- Result content will be inserted here -->
+  </div>
+</div>
+
+<!-- Floating button for quick navigation -->
+<button id="floatingBtn" class="floating-btn btn btn-primary hidden">
+  <i class="bi bi-arrow-up"></i>
+</button>
+
+<!-- Chart.js for results visualization -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.min.js"></script>
+
+<script>
+// Baseado no modelo DISC validado internacionalmente
+const questions = [
+  { 
+    text: "Em um ambiente de trabalho, você geralmente:", 
+    options: [
+      { text: "Assume a liderança e toma decisões rapidamente", type: "dominance" },
+      { text: "Anima o grupo com entusiasmo e ideias", type: "influence" },
+      { text: "Promove harmonia e cooperação", type: "steadiness" },
+      { text: "Analisa cuidadosamente antes de agir", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Quando confrontado com um problema, você tende a:", 
+    options: [
+      { text: "Enfrentá-lo diretamente e buscar soluções imediatas", type: "dominance" },
+      { text: "Discutir com outras pessoas para obter diferentes perspectivas", type: "influence" },
+      { text: "Manter a calma e buscar uma solução pacífica", type: "steadiness" },
+      { text: "Pesquisar e analisar todas as opções antes de decidir", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Em situações sociais, você normalmente:", 
+    options: [
+      { text: "Assume o controle da conversa e direciona os tópicos", type: "dominance" },
+      { text: "É o centro das atenções, contando histórias e piadas", type: "influence" },
+      { text: "Ouve mais do que fala, mostrando interesse nos outros", type: "steadiness" },
+      { text: "Observa e analisa as dinâmicas do grupo", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Seu estilo de comunicação é mais:", 
+    options: [
+      { text: "Direto e objetivo", type: "dominance" },
+      { text: "Expressivo e animado", type: "influence" },
+      { text: "Calmo e paciente", type: "steadiness" },
+      { text: "Preciso e detalhado", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Ao trabalhar em projetos, você prefere:", 
+    options: [
+      { text: "Ter autonomia e poder de decisão", type: "dominance" },
+      { text: "Trabalhar em equipe com muita interação", type: "influence" },
+      { text: "Um ambiente estável e previsível", type: "steadiness" },
+      { text: "Seguir processos bem definidos", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Quando precisa convencer alguém, você:", 
+    options: [
+      { text: "Apresenta fatos concretos e resultados esperados", type: "dominance" },
+      { text: "Usa histórias e exemplos inspiradores", type: "influence" },
+      { text: "Mostra como sua ideia beneficiará a todos", type: "steadiness" },
+      { text: "Apresenta dados e análises detalhadas", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Sua abordagem para mudanças é:", 
+    options: [
+      { text: "Aceita bem, desde que você possa liderar o processo", type: "dominance" },
+      { text: "Entusiasma-se com novas possibilidades", type: "influence" },
+      { text: "Precisa de tempo para se adaptar", type: "steadiness" },
+      { text: "Analisa cuidadosamente os prós e contras", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Em situações de conflito, você:", 
+    options: [
+      { text: "Enfrenta o conflito diretamente para resolvê-lo rápido", type: "dominance" },
+      { text: "Tenta amenizar o clima com humor ou mudando de assunto", type: "influence" },
+      { text: "Procura conciliar e manter a paz", type: "steadiness" },
+      { text: "Analisa as causas racionais do conflito", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Seu ritmo de trabalho é mais:", 
+    options: [
+      { text: "Rápido e decidido", type: "dominance" },
+      { text: "Energético, com altos e baixos", type: "influence" },
+      { text: "Constante e estável", type: "steadiness" },
+      { text: "Metódico e preciso", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Ao tomar decisões importantes, você:", 
+    options: [
+      { text: "Confia em sua intuição e age rapidamente", type: "dominance" },
+      { text: "Consulta várias pessoas antes de decidir", type: "influence" },
+      { text: "Considera como a decisão afetará os outros", type: "steadiness" },
+      { text: "Reúne todos os dados possíveis antes de decidir", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Em relação a regras e procedimentos, você:", 
+    options: [
+      { text: "Questiona e muda se não fizer sentido para você", type: "dominance" },
+      { text: "Adapta conforme a situação e as pessoas envolvidas", type: "influence" },
+      { text: "Segue para manter a ordem e previsibilidade", type: "steadiness" },
+      { text: "Segue rigorosamente, pois existem por uma razão", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Seu maior medo profissional é:", 
+    options: [
+      { text: "Perder controle ou ser visto como fraco", type: "dominance" },
+      { text: "Ser ignorado ou não ter reconhecimento", type: "influence" },
+      { text: "Conflitos ou mudanças bruscas", type: "steadiness" },
+      { text: "Falhar por falta de preparo ou informação", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Quando trabalha em equipe, seu papel tende a ser:", 
+    options: [
+      { text: "O líder que direciona e toma as decisões finais", type: "dominance" },
+      { text: "O motivador que mantém o ânimo do grupo", type: "influence" },
+      { text: "O mediador que mantém a harmonia", type: "steadiness" },
+      { text: "O planejador que organiza os detalhes", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Sua maior força no trabalho é:", 
+    options: [
+      { text: "Capacidade de resolver problemas e tomar decisões", type: "dominance" },
+      { text: "Habilidade de comunicar e influenciar pessoas", type: "influence" },
+      { text: "Paciência e capacidade de ouvir", type: "steadiness" },
+      { text: "Atenção a detalhes e precisão", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Em situações de pressão, você:", 
+    options: [
+      { text: "Fica mais determinado e focado nos resultados", type: "dominance" },
+      { text: "Tenta manter o moral do grupo alto", type: "influence" },
+      { text: "Mantém a calma e evita conflitos", type: "steadiness" },
+      { text: "Concentra-se em resolver metodicamente", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Seu estilo de liderança seria:", 
+    options: [
+      { text: "Direto e orientado a resultados", type: "dominance" },
+      { text: "Inspirador e motivador", type: "influence" },
+      { text: "Acolhedor e colaborativo", type: "steadiness" },
+      { text: "Organizado e baseado em processos", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Em relação a riscos, você:", 
+    options: [
+      { text: "Aceita bem, desde que veja potencial de recompensa", type: "dominance" },
+      { text: "Gosta da emoção e das possibilidades", type: "influence" },
+      { text: "Prefere evitar, optando pela segurança", type: "steadiness" },
+      { text: "Calcula cuidadosamente antes de assumir", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Quando recebe feedback, você:", 
+    options: [
+      { text: "Foca no que pode melhorar para ser mais eficiente", type: "dominance" },
+      { text: "Valora especialmente o reconhecimento positivo", type: "influence" },
+      { text: "Aprecia a forma como o feedback foi dado", type: "steadiness" },
+      { text: "Analisa detalhadamente cada ponto mencionado", type: "compliance" }
+    ]
+  },
+  { 
+    text: "Em relação a prazos, você:", 
+    options: [
+      { text: "Define prazos agressivos e cumpre a qualquer custo", type: "dominance" },
+      { text: "Prefere flexibilidade para adaptar-se a mudanças", type: "influence" },
+      { text: "Planeja cuidadosamente para cumprir no prazo", type: "steadiness" },
+      { text: "Organiza cada etapa para garantir precisão", type: "compliance" }
+    ]
+  }
+];
+
+const questionsDiv = document.getElementById('questions');
+const progressBar = document.getElementById('progressBar');
+const progressText = document.getElementById('progressText');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const submitBtn = document.getElementById('submitBtn');
+const floatingBtn = document.getElementById('floatingBtn');
+const resultDiv = document.getElementById('result');
+
+let currentPage = 0;
+const questionsPerPage = 4;
+let answers = Array(questions.length).fill(null);
+
+function renderQuestions() {
+  questionsDiv.innerHTML = '';
+  const start = currentPage * questionsPerPage;
+  const end = Math.min(start + questionsPerPage, questions.length);
+
+  for (let i = start; i < end; i++) {
+    const q = questions[i];
+    let optionsHtml = '';
+    
+    q.options.forEach((option, idx) => {
+      const isChecked = answers[i] === idx;
+      optionsHtml += `
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="radio" name="q${i}" id="q${i}-${idx}" value="${idx}" ${isChecked ? 'checked' : ''} required>
+          <label class="form-check-label option-label" for="q${i}-${idx}">${option.text}</label>
+        </div>
+      `;
+    });
+    
+    questionsDiv.innerHTML += `
+      <div class="question-card">
+        <h5 class="fw-semibold mb-3">${i + 1}. ${q.text}</h5>
+        ${optionsHtml}
+      </div>
+    `;
+  }
+
+  updateProgress();
+  prevBtn.disabled = currentPage === 0;
+  nextBtn.classList.toggle('hidden', end === questions.length);
+  submitBtn.classList.toggle('hidden', end !== questions.length);
+}
+
+function updateProgress() {
+  const totalPages = Math.ceil(questions.length / questionsPerPage);
+  const progress = ((currentPage + 1) / totalPages) * 100;
+  progressBar.style.width = progress + '%';
+  progressText.textContent = Math.round(progress) + '% completado';
+}
+
+function savePageAnswers() {
+  const start = currentPage * questionsPerPage;
+  const end = Math.min(start + questionsPerPage, questions.length);
+
+  for (let i = start; i < end; i++) {
+    const checkedRadio = document.querySelector(`input[name="q${i}"]:checked`);
+    if (checkedRadio) {
+      answers[i] = parseInt(checkedRadio.value);
+    }
+  }
+}
+
+nextBtn.addEventListener('click', () => {
+  if (validatePage()) {
+    savePageAnswers();
+    currentPage++;
+    renderQuestions();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
+
+prevBtn.addEventListener('click', () => {
+  savePageAnswers();
+  currentPage--;
+  renderQuestions();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+function validatePage() {
+  const start = currentPage * questionsPerPage;
+  const end = Math.min(start + questionsPerPage, questions.length);
+
+  for (let i = start; i < end; i++) {
+    const radios = document.getElementsByName(`q${i}`);
+    if (![...radios].some(r => r.checked)) {
+      alert('Por favor, responda todas as perguntas desta página antes de continuar.');
+      return false;
+    }
+  }
+  return true;
+}
+
+function getDominantProfile(scores) {
+  let max = 0;
+  let dominant = '';
+  for (let type in scores) {
+    if (scores[type] > max) {
+      max = scores[type];
+      dominant = type;
+    }
+  }
+  return {
+    type: dominant,
+    score: max
+  };
+}
+
+function renderResults(scores) {
+  const dominant = getDominantProfile(scores);
+  const profileNames = {
+    dominance: "Dominância (D)",
+    influence: "Influência (I)",
+    steadiness: "Estabilidade (S)",
+    compliance: "Conformidade (C)"
+  };
+  
+  const profileDescriptions = {
+    dominance: "Perfil direto, assertivo e orientado a resultados. Pessoas com alta Dominância são determinadas, competitivas e gostam de desafios. Valorizam a eficiência e o controle, tomando decisões rápidas e focando no essencial.",
+    influence: "Perfil comunicativo, entusiasmado e sociável. Pessoas com alta Influência são persuasivas, otimistas e gostam de trabalhar em equipe. Valorizam o reconhecimento e têm facilidade para motivar os outros.",
+    steadiness: "Perfil paciente, estável e cooperativo. Pessoas com alta Estabilidade são leais, calmas e valorizam a harmonia. Trabalham bem em ambientes previsíveis e são ótimos ouvintes e mediadores.",
+    compliance: "Perfil analítico, preciso e sistemático. Pessoas com alta Conformidade são detalhistas, organizadas e valorizam a qualidade. Seguem procedimentos e baseiam suas decisões em dados e fatos."
+  };
+  
+  const profileTraits = {
+    dominance: ["Determinação", "Autoconfiança", "Orientação a resultados", "Independência", "Competitividade"],
+    influence: ["Comunicação", "Persuasão", "Otimismo", "Espontaneidade", "Trabalho em equipe"],
+    steadiness: ["Paciência", "Diplomacia", "Lealdade", "Consistência", "Empatia"],
+    compliance: ["Análise", "Precisão", "Organização", "Planejamento", "Qualidade"]
+  };
+  
+  const profileStrengths = {
+    dominance: "Liderança em situações de crise, tomada de decisão rápida, foco em resultados",
+    influence: "Motivação de equipes, criação de networking, geração de novas ideias",
+    steadiness: "Manutenção da harmonia, trabalho consistente, apoio aos colegas",
+    compliance: "Análise detalhada, garantia de qualidade, planejamento preciso"
+  };
+  
+  const profileChallenges = {
+    dominance: "Pode ser visto como autoritário, impaciente com detalhes, pouco sensível",
+    influence: "Pode ser visto como superficial, desorganizado, muito falante",
+    steadiness: "Pode resistir a mudanças, evitar conflitos necessários, ser indeciso",
+    compliance: "Pode ser perfeccionista, excessivamente crítico, lento para decidir"
+  };
+  
+  // Calculate percentages
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+  const percentages = {};
+  for (let type in scores) {
+    percentages[type] = ((scores[type] / total) * 100).toFixed(1);
+  }
+  
+  // Create chart
+  resultDiv.innerHTML = `
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Seu Perfil DISC</h2>
+      <p class="lead">Seu estilo comportamental predominante é:</p>
+      <span class="dominant-badge d-inline-block mb-3">${profileNames[dominant.type]} (${percentages[dominant.type]}%)</span>
+      <p>${profileDescriptions[dominant.type]}</p>
+    </div>
+    
+    <div class="chart-container">
+      <canvas id="profileChart"></canvas>
+    </div>
+    
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="profile-card dominance-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="fw-bold mb-0">Dominância (D)</h4>
+            <span class="badge bg-light text-dark">${percentages.dominance}%</span>
+          </div>
+          <p>${profileDescriptions.dominance}</p>
+          <h5 class="mt-3 fw-semibold">Pontos Fortes:</h5>
+          <p>${profileStrengths.dominance}</p>
+          <h5 class="mt-3 fw-semibold">Desafios:</h5>
+          <p>${profileChallenges.dominance}</p>
+          <h5 class="mt-3 fw-semibold">Características:</h5>
+          <ul class="trait-list">
+            ${profileTraits.dominance.map(trait => `<li>${trait}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="profile-card influence-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="fw-bold mb-0">Influência (I)</h4>
+            <span class="badge bg-light text-dark">${percentages.influence}%</span>
+          </div>
+          <p>${profileDescriptions.influence}</p>
+          <h5 class="mt-3 fw-semibold">Pontos Fortes:</h5>
+          <p>${profileStrengths.influence}</p>
+          <h5 class="mt-3 fw-semibold">Desafios:</h5>
+          <p>${profileChallenges.influence}</p>
+          <h5 class="mt-3 fw-semibold">Características:</h5>
+          <ul class="trait-list">
+            ${profileTraits.influence.map(trait => `<li>${trait}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="profile-card steadiness-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="fw-bold mb-0">Estabilidade (S)</h4>
+            <span class="badge bg-light text-dark">${percentages.steadiness}%</span>
+          </div>
+          <p>${profileDescriptions.steadiness}</p>
+          <h5 class="mt-3 fw-semibold">Pontos Fortes:</h5>
+          <p>${profileStrengths.steadiness}</p>
+          <h5 class="mt-3 fw-semibold">Desafios:</h5>
+          <p>${profileChallenges.steadiness}</p>
+          <h5 class="mt-3 fw-semibold">Características:</h5>
+          <ul class="trait-list">
+            ${profileTraits.steadiness.map(trait => `<li>${trait}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="profile-card compliance-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="fw-bold mb-0">Conformidade (C)</h4>
+            <span class="badge bg-light text-dark">${percentages.compliance}%</span>
+          </div>
+          <p>${profileDescriptions.compliance}</p>
+          <h5 class="mt-3 fw-semibold">Pontos Fortes:</h5>
+          <p>${profileStrengths.compliance}</p>
+          <h5 class="mt-3 fw-semibold">Desafios:</h5>
+          <p>${profileChallenges.compliance}</p>
+          <h5 class="mt-3 fw-semibold">Características:</h5>
+          <ul class="trait-list">
+            ${profileTraits.compliance.map(trait => `<li>${trait}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-4 p-4 bg-light rounded">
+      <h4 class="fw-bold">Sobre o Modelo DISC</h4>
+      <p>O modelo DISC é uma ferramenta comportamental desenvolvida pelo psicólogo William Moulton Marston na década de 1920. Ele categoriza os padrões de comportamento em quatro dimensões principais: Dominância (D), Influência (I), Estabilidade (S) e Conformidade (C).</p>
+      <p class="mb-0">É importante destacar que não há um perfil "melhor" ou "pior" - cada estilo tem suas forças e desafios. A maioria das pessoas apresenta uma combinação de dois ou três estilos predominantes, e nosso comportamento pode variar conforme o contexto.</p>
+    </div>
+    
+    <div class="text-center mt-4">
+      <button id="retakeTest" class="btn btn-primary">
+        <i class="bi bi-arrow-repeat"></i> Refazer Teste
+      </button>
+    </div>
+  `;
+  
+  // Initialize chart
+  const ctx = document.getElementById('profileChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Dominância (D)', 'Influência (I)', 'Estabilidade (S)', 'Conformidade (C)'],
+      datasets: [{
+        label: 'Porcentagem do seu perfil',
+        data: [percentages.dominance, percentages.influence, percentages.steadiness, percentages.compliance],
+        backgroundColor: [
+          'rgba(230, 57, 70, 0.7)',
+          'rgba(244, 162, 97, 0.7)',
+          'rgba(42, 157, 143, 0.7)',
+          'rgba(69, 123, 157, 0.7)'
+        ],
+        borderColor: [
+          'rgba(230, 57, 70, 1)',
+          'rgba(244, 162, 97, 1)',
+          'rgba(42, 157, 143, 1)',
+          'rgba(69, 123, 157, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: {
+            callback: function(value) {
+              return value + '%';
+            }
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.parsed.y + '%';
+            }
+          }
+        }
+      }
+    }
+  });
+  
+  // Scroll to results
+  setTimeout(() => {
+    resultDiv.scrollIntoView({ behavior: 'smooth' });
+  }, 300);
+  
+  // Show floating button
+  floatingBtn.classList.remove('hidden');
+  
+  // Add retake test event
+  document.getElementById('retakeTest').addEventListener('click', () => {
+    resetTest();
+  });
+}
+
+function resetTest() {
+  currentPage = 0;
+  answers = Array(questions.length).fill(null);
+  resultDiv.classList.add('d-none');
+  document.getElementById('quizForm').classList.remove('d-none');
+  renderQuestions();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  floatingBtn.classList.add('hidden');
+}
+
+document.getElementById('quizForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  savePageAnswers();
+
+  let scores = { dominance: 0, influence: 0, steadiness: 0, compliance: 0 };
+
+  questions.forEach((q, index) => {
+    if (answers[index] !== null) {
+      const selectedOption = q.options[answers[index]];
+      scores[selectedOption.type]++;
+    }
+  });
+
+  document.getElementById('quizForm').classList.add('d-none');
+  resultDiv.classList.remove('d-none');
+  
+  renderResults(scores);
+});
+
+// Floating button functionality
+floatingBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+window.addEventListener('scroll', () => {
+  if (window.pageYOffset > 300) {
+    floatingBtn.classList.remove('hidden');
+  } else {
+    floatingBtn.classList.add('hidden');
+  }
+});
+
+// Initialize
+renderQuestions();
+</script>
+
+</body>
+</html>

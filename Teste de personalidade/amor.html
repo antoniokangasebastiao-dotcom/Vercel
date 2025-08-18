@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teste das Linguagens do Amor</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Biblioteca para gerar PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    :root {
+      --palavras: #e63946;
+      --tempo: #457b9d;
+      --presentes: #f4a261;
+      --servicos: #2a9d8f;
+      --toque: #9d4edd;
+      --light-bg: #f8f9fa;
+      --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light-bg);
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 800px;
+    }
+    
+    .header {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .progress-container {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .progress {
+      height: 12px;
+      background-color: #e9ecef;
+      border-radius: 6px;
+    }
+    
+    .progress-bar {
+      background: var(--primary-gradient);
+      transition: width 0.6s ease;
+    }
+    
+    .question-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .question-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    
+    .form-check-input:checked {
+      background-color: #6a11cb;
+      border-color: #6a11cb;
+    }
+    
+    .btn-primary {
+      background: var(--primary-gradient);
+      border: none;
+      padding: 0.5rem 1.5rem;
+      font-weight: 500;
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #5a0bb5, #1a66e0);
+    }
+    
+    .btn-outline-secondary {
+      padding: 0.5rem 1.5rem;
+      font-weight: 500;
+    }
+    
+    .result-container {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 2rem;
+      box-shadow: var(--card-shadow);
+      animation: fadeIn 0.8s ease;
+    }
+    
+    .love-card {
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: white;
+      transition: transform 0.3s ease;
+    }
+    
+    .love-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .palavras-card {
+      background: linear-gradient(135deg, var(--palavras), #c1121f);
+    }
+    
+    .tempo-card {
+      background: linear-gradient(135deg, var(--tempo), #1d3557);
+    }
+    
+    .presentes-card {
+      background: linear-gradient(135deg, var(--presentes), #e76f51);
+    }
+    
+    .servicos-card {
+      background: linear-gradient(135deg, var(--servicos), #1a936f);
+    }
+    
+    .toque-card {
+      background: linear-gradient(135deg, var(--toque), #7b2cbf);
+    }
+    
+    .dominant-badge {
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #ff9a00, #ff6b00);
+      color: white;
+      font-weight: 600;
+    }
+    
+    .chart-container {
+      height: 300px;
+      margin: 2rem 0;
+    }
+    
+    .trait-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    
+    .trait-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .trait-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .love-tip {
+      background: rgba(255,255,255,0.15);
+      padding: 0.75rem;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .floating-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 99;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .option-label {
+      font-weight: 500;
+      margin-left: 8px;
+    }
+    
+    @media (max-width: 768px) {
+      .header {
+        padding: 1.5rem;
+      }
+      
+      .question-card, .result-container {
+        padding: 1.25rem;
+      }
+      
+      .love-card {
+        padding: 1rem;
+      }
+    }
+    .navbar-custom {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+  color: white;
+  font-weight: 500;
+}
+
+.navbar-custom .nav-link:hover {
+  color: rgba(255,255,255,0.8);
+}
+
+.dropdown-menu {
+  border: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border-radius: 10px;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1.5rem;
+}
+
+.dropdown-item:hover {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+.navbar-custom {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+  color: white;
+  font-weight: 500;
+}
+
+.navbar-custom .nav-link:hover {
+  color: rgba(255,255,255,0.8);
+}
+
+.dropdown-menu {
+  border: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border-radius: 10px;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1.5rem;
+}
+
+.dropdown-item:hover {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+
+/* Estilos para os botões de compartilhamento */
+.share-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 5px;
+  color: white;
+  font-weight: 500;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+  color: white;
+  text-decoration: none;
+}
+
+.share-btn i {
+  margin-right: 5px;
+}
+
+.facebook-btn {
+  background-color: #3b5998;
+}
+
+.twitter-btn {
+  background-color: #1da1f2;
+}
+
+.whatsapp-btn {
+  background-color: #25d366;
+}
+
+.linkedin-btn {
+  background-color: #0077b5;
+}
+
+.export-btn {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+}
+
+/* Estilo para o modal de compartilhamento */
+.share-modal .modal-content {
+  border-radius: 12px;
+}
+
+.share-modal .modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.share-modal .modal-body {
+  padding-top: 0;
+}
+
+.share-link-container {
+  display: flex;
+  margin-top: 15px;
+}
+
+.share-link {
+  flex-grow: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px 0 0 5px;
+  background-color: #f8f9fa;
+}
+
+.copy-link-btn {
+  border-radius: 0 5px 5px 0;
+}
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="inicio.html">
+      <i class="bi bi-stars me-2"></i>Desenvolvimento Pessoal
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-clipboard-check me-2"></i>Testes
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="temperamento.html">
+                <i class="bi bi-emoji-smile me-2"></i>Temperamento
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="DISC.html">
+                <i class="bi bi-person-lines-fill me-2"></i>Perfil DISC
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="amor.html">
+                <i class="bi bi-heart-fill me-2"></i>Linguagem do Amor
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="canal.html">
+                <i class="bi bi-book-half me-2"></i>Canal de Aprendizagem
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="inteligencia.html">
+                <i class="bi bi-lightbulb me-2"></i>Tipos de Inteligência
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-4">
+  <div class="header text-center">
+    <h1 class="fw-bold mb-3">Teste das Linguagens do Amor</h1>
+    <p class="mb-0">Descubra como você expressa e prefere receber amor em seus relacionamentos</p>
+  </div>
+
+  <div class="progress-container">
+    <div class="d-flex justify-content-between mb-2">
+      <span>Progresso</span>
+      <span id="progressText">0%</span>
+    </div>
+    <div class="progress">
+      <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <form id="quizForm">
+    <div id="questions"></div>
+
+    <div class="d-flex justify-content-between mt-4">
+      <button type="button" class="btn btn-outline-secondary" id="prevBtn" disabled>
+        <i class="bi bi-arrow-left"></i> Anterior
+      </button>
+      <button type="button" class="btn btn-primary" id="nextBtn">
+        Próximo <i class="bi bi-arrow-right"></i>
+      </button>
+      <button type="submit" class="btn btn-success hidden" id="submitBtn">
+        <i class="bi bi-check-circle"></i> Ver Resultados
+      </button>
+    </div>
+  </form>
+
+  <div id="result" class="result-container d-none">
+    <!-- Result content will be inserted here -->
+    
+  </div>
+</div>
+
+<!-- Modal de Compartilhamento -->
+<div class="modal fade share-modal" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="shareModalLabel">Compartilhar Resultados</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Compartilhe seus resultados nas redes sociais ou copie o link para enviar para amigos:</p>
+        
+        <div class="share-buttons">
+          <a href="#" class="share-btn facebook-btn" id="facebookShare">
+            <i class="bi bi-facebook"></i> Facebook
+          </a>
+          <a href="#" class="share-btn twitter-btn" id="twitterShare">
+            <i class="bi bi-twitter"></i> Twitter
+          </a>
+          <a href="#" class="share-btn whatsapp-btn" id="whatsappShare">
+            <i class="bi bi-whatsapp"></i> WhatsApp
+          </a>
+          <a href="#" class="share-btn linkedin-btn" id="linkedinShare">
+            <i class="bi bi-linkedin"></i> LinkedIn
+          </a>
+        </div>
+        
+        <div class="share-link-container mt-3">
+          <input type="text" class="form-control share-link" id="shareLink" readonly value="">
+          <button class="btn btn-primary copy-link-btn" id="copyLinkBtn">
+            <i class="bi bi-clipboard"></i>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Floating button for quick navigation -->
+<button id="floatingBtn" class="floating-btn btn btn-primary hidden">
+  <i class="bi bi-arrow-up"></i>
+</button>
+
+<!-- Chart.js for results visualization -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Baseado na teoria das 5 Linguagens do Amor de Gary Chapman
+const questions = [
+  { 
+    text: "O que mais te faz sentir amado(a)?", 
+    options: [
+      { text: "Receber elogios e palavras de afeto", type: "palavras" },
+      { text: "Passar tempo de qualidade juntos, sem distrações", type: "tempo" },
+      { text: "Receber presentes significativos", type: "presentes" },
+      { text: "Quando meu parceiro(a) faz coisas para me ajudar", type: "servicos" },
+      { text: "Abraços, beijos e contato físico", type: "toque" }
+    ]
+  },
+  { 
+    text: "Quando você está chateado(a), o que mais te conforta?", 
+    options: [
+      { text: "Ouvir palavras de encorajamento", type: "palavras" },
+      { text: "Ter a atenção completa do meu parceiro(a)", type: "tempo" },
+      { text: "Receber um presente ou gesto inesperado", type: "presentes" },
+      { text: "Meu parceiro(a) tomar iniciativa para resolver o problema", type: "servicos" },
+      { text: "Um abraço apertado ou carinho físico", type: "toque" }
+    ]
+  },
+  { 
+    text: "Como você prefere comemorar datas especiais?", 
+    options: [
+      { text: "Recebendo uma carta ou mensagem especial", type: "palavras" },
+      { text: "Passando o dia todo juntos, fazendo algo significativo", type: "tempo" },
+      { text: "Recebendo um presente bem pensado", type: "presentes" },
+      { text: "Meu parceiro(a) planejando tudo e cuidando dos detalhes", type: "servicos" },
+      { text: "Com muitos abraços, beijos e proximidade física", type: "toque" }
+    ]
+  },
+  { 
+    text: "O que você mais valoriza no dia a dia?", 
+    options: [
+      { text: "Mensagens de bom dia e palavras carinhosas", type: "palavras" },
+      { text: "Momento de conversa sem celular ou distrações", type: "tempo" },
+      { text: "Pequenos mimos ou lembrancinhas", type: "presentes" },
+      { text: "Quando meu parceiro(a) ajuda nas tarefas sem eu pedir", type: "servicos" },
+      { text: "Toques casuais, como passar a mão no rosto ou segurar as mãos", type: "toque" }
+    ]
+  },
+  { 
+    text: "Como você prefere resolver conflitos?", 
+    options: [
+      { text: "Conversando abertamente sobre sentimentos", type: "palavras" },
+      { text: "Tirando um tempo só para nós para discutir", type: "tempo" },
+      { text: "Recebendo um gesto simbólico de reconciliação", type: "presentes" },
+      { text: "Meu parceiro(a) mostrando através de ações que quer resolver", type: "servicos" },
+      { text: "Um abraço reconfortante no final da discussão", type: "toque" }
+    ]
+  },
+  { 
+    text: "O que te faz sentir mais conectado(a) ao seu parceiro(a)?", 
+    options: [
+      { text: "Quando ele(a) expressa o que sente por mim", type: "palavras" },
+      { text: "Quando fazemos algo juntos, totalmente focados um no outro", type: "tempo" },
+      { text: "Quando recebo algo que mostra que ele(a) pensou em mim", type: "presentes" },
+      { text: "Quando ele(a) faz algo prático para me ajudar", type: "servicos" },
+      { text: "Quando estamos fisicamente próximos e nos tocando", type: "toque" }
+    ]
+  },
+  { 
+    text: "Como você prefere ser surpreendido(a)?", 
+    options: [
+      { text: "Com uma declaração de amor inesperada", type: "palavras" },
+      { text: "Com um passeio ou atividade planejada só para nós dois", type: "tempo" },
+      { text: "Com um presente ou surpresa material", type: "presentes" },
+      { text: "Com ele(a) fazendo algo que eu normalmente teria que fazer", type: "servicos" },
+      { text: "Com um massagem ou carinho físico inesperado", type: "toque" }
+    ]
+  },
+  { 
+    text: "O que mais te magoa em um relacionamento?", 
+    options: [
+      { text: "Falta de comunicação ou palavras ríspidas", type: "palavras" },
+      { text: "Meu parceiro(a) estar sempre ocupado e não ter tempo para mim", type: "tempo" },
+      { text: "Datas especiais passarem em branco sem nenhum gesto", type: "presentes" },
+      { text: "Ter que fazer tudo sozinho(a) sem ajuda", type: "servicos" },
+      { text: "Falta de contato físico e intimidade", type: "toque" }
+    ]
+  },
+  { 
+    text: "Como você demonstra amor quando está apaixonado(a)?", 
+    options: [
+      { text: "Escrevo bilhetes ou mando mensagens carinhosas", type: "palavras" },
+      { text: "Arrumo tempo para ficarmos juntos, não importa o quão ocupado eu esteja", type: "tempo" },
+      { text: "Dou presentes e lembrancinhas", type: "presentes" },
+      { text: "Faço coisas práticas para ajudar ou agradar", type: "servicos" },
+      { text: "Busco contato físico frequentemente", type: "toque" }
+    ]
+  },
+  { 
+    text: "O que você mais sente falta quando está longe do seu parceiro(a)?", 
+    options: [
+      { text: "Ouvir a voz dele(a) e as coisas que dizia", type: "palavras" },
+      { text: "Os momentos que passávamos conversando e rindo juntos", type: "tempo" },
+      { text: "Os pequenos presentes ou lembranças que trocávamos", type: "presentes" },
+      { text: "Como ele(a) cuidava de mim nas pequenas coisas", type: "servicos" },
+      { text: "O calor do abraço e o contato físico", type: "toque" }
+    ]
+  },
+  { 
+    text: "Como você prefere comemorar suas conquistas?", 
+    options: [
+      { text: "Ouvindo palavras de orgulho e reconhecimento", type: "palavras" },
+      { text: "Passando um tempo especial celebrando juntos", type: "tempo" },
+      { text: "Recebendo um presente relacionado à conquista", type: "presentes" },
+      { text: "Meu parceiro(a) ajudando a organizar a comemoração", type: "servicos" },
+      { text: "Com muitos abraços e demonstrações físicas de alegria", type: "toque" }
+    ]
+  },
+  { 
+    text: "O que mais te toca em um relacionamento?", 
+    options: [
+      { text: "Quando meu parceiro(a) expressa seus sentimentos por mim", type: "palavras" },
+      { text: "Quando paramos tudo para realmente nos conectarmos", type: "tempo" },
+      { text: "Quando recebo algo que mostra que ele(a) me conhece bem", type: "presentes" },
+      { text: "Quando ele(a) se esforça para me ajudar no dia a dia", type: "servicos" },
+      { text: "Quando o toque dele(a) transmite amor e segurança", type: "toque" }
+    ]
+  },
+  { 
+    text: "Como você prefere ser consolado(a) em um dia difícil?", 
+    options: [
+      { text: "Ouvindo palavras de conforto e encorajamento", type: "palavras" },
+      { text: "Tendo a atenção completa do meu parceiro(a)", type: "tempo" },
+      { text: "Recebendo um pequeno mimo para animar meu dia", type: "presentes" },
+      { text: "Meu parceiro(a) tomando conta de algo por mim", type: "servicos" },
+      { text: "Sendo abraçado(a) ou acariciado(a)", type: "toque" }
+    ]
+  },
+  { 
+    text: "O que mais te faz sentir especial?", 
+    options: [
+      { text: "Quando meu parceiro(a) me elogia ou fala o que admira em mim", type: "palavras" },
+      { text: "Quando ele(a) dedica tempo exclusivo para mim", type: "tempo" },
+      { text: "Quando recebo um presente que mostra que ele(a) me conhece", type: "presentes" },
+      { text: "Quando ele(a) faz algo que facilita minha vida", type: "servicos" },
+      { text: "Quando o toque dele(a) é carinhoso e frequente", type: "toque" }
+    ]
+  },
+  { 
+    text: "Como você prefere passar uma noite romântica?", 
+    options: [
+      { text: "Conversando profundamente sobre nossos sentimentos", type: "palavras" },
+      { text: "Fazendo uma atividade juntos, como jogar ou cozinhar", type: "tempo" },
+      { text: "Recebendo um presente romântico", type: "presentes" },
+      { text: "Meu parceiro(a) preparando tudo para a noite", type: "servicos" },
+      { text: "Com muito contato físico e intimidade", type: "toque" }
+    ]
+  },
+  { 
+    text: "O que você mais valoriza em um aniversário de relacionamento?", 
+    options: [
+      { text: "Uma carta ou mensagem especial repleta de sentimentos", type: "palavras" },
+      { text: "Passar o dia todo juntos, revivendo memórias", type: "tempo" },
+      { text: "Um presente significativo que marque a ocasião", type: "presentes" },
+      { text: "Meu parceiro(a) planejando tudo para que eu não precise me preocupar", type: "servicos" },
+      { text: "Momentos íntimos e carinhos físicos", type: "toque" }
+    ]
+  },
+  { 
+    text: "Como você sabe que seu parceiro(a) está pensando em você durante o dia?", 
+    options: [
+      { text: "Quando ele(a) manda mensagens carinhosas", type: "palavras" },
+      { text: "Quando ele(a) marca um tempo para nos vermos", type: "tempo" },
+      { text: "Quando recebo um pequeno presente ou lembrança", type: "presentes" },
+      { text: "Quando ele(a) faz algo prático para me ajudar", type: "servicos" },
+      { text: "Quando ele(a) procura contato físico ao nos vermos", type: "toque" }
+    ]
+  },
+  { 
+    text: "O que mais te deixa feliz em um relacionamento?", 
+    options: [
+      { text: "Ouvir regularmente o quanto sou amado(a)", type: "palavras" },
+      { text: "Saber que temos nosso tempo especial juntos", type: "tempo" },
+      { text: "Receber gestos materiais de afeto", type: "presentes" },
+      { text: "Ver meu parceiro(a) se esforçando para me ajudar", type: "servicos" },
+      { text: "Sentir a conexão física entre nós", type: "toque" }
+    ]
+  },
+  { 
+    text: "Como você prefere ser recebido(a) após uma viagem?", 
+    options: [
+      { text: "Com palavras de saudade e alegria por me ver", type: "palavras" },
+      { text: "Com tempo reservado para contar nossas novidades", type: "tempo" },
+      { text: "Com um presente ou lembrança de que me esperava", type: "presentes" },
+      { text: "Com tudo organizado em casa para meu conforto", type: "servicos" },
+      { text: "Com um abraço demorado e carinhoso", type: "toque" }
+    ]
+  },
+  { 
+    text: "O que mais te faz sentir seguro(a) no relacionamento?", 
+    options: [
+      { text: "Ouvir regularmente declarações de amor e compromisso", type: "palavras" },
+      { text: "Saber que temos tempo garantido um para o outro", type: "tempo" },
+      { text: "Receber gestos simbólicos que representem nosso vínculo", type: "presentes" },
+      { text: "Ver meu parceiro(a) investindo no relacionamento através de ações", type: "servicos" },
+      { text: "A proximidade física e os toques frequentes", type: "toque" }
+    ]
+  }
+];
+
+const questionsDiv = document.getElementById('questions');
+const progressBar = document.getElementById('progressBar');
+const progressText = document.getElementById('progressText');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const submitBtn = document.getElementById('submitBtn');
+const floatingBtn = document.getElementById('floatingBtn');
+const resultDiv = document.getElementById('result');
+const shareModal = new bootstrap.Modal(document.getElementById('shareModal'));
+const shareLink = document.getElementById('shareLink');
+const copyLinkBtn = document.getElementById('copyLinkBtn');
+
+let currentPage = 0;
+const questionsPerPage = 4;
+let answers = Array(questions.length).fill(null);
+
+function renderQuestions() {
+  questionsDiv.innerHTML = '';
+  const start = currentPage * questionsPerPage;
+  const end = Math.min(start + questionsPerPage, questions.length);
+
+  for (let i = start; i < end; i++) {
+    const q = questions[i];
+    let optionsHtml = '';
+    
+    q.options.forEach((option, idx) => {
+      const isChecked = answers[i] === idx;
+      optionsHtml += `
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="radio" name="q${i}" id="q${i}-${idx}" value="${idx}" ${isChecked ? 'checked' : ''} required>
+          <label class="form-check-label option-label" for="q${i}-${idx}">${option.text}</label>
+        </div>
+      `;
+    });
+    
+    questionsDiv.innerHTML += `
+      <div class="question-card">
+        <h5 class="fw-semibold mb-3">${i + 1}. ${q.text}</h5>
+        ${optionsHtml}
+      </div>
+    `;
+  }
+
+  updateProgress();
+  prevBtn.disabled = currentPage === 0;
+  nextBtn.classList.toggle('hidden', end === questions.length);
+  submitBtn.classList.toggle('hidden', end !== questions.length);
+}
+
+function updateProgress() {
+  const totalPages = Math.ceil(questions.length / questionsPerPage);
+  const progress = ((currentPage + 1) / totalPages) * 100;
+  progressBar.style.width = progress + '%';
+  progressText.textContent = Math.round(progress) + '% completado';
+}
+
+function savePageAnswers() {
+  const start = currentPage * questionsPerPage;
+  const end = Math.min(start + questionsPerPage, questions.length);
+
+  for (let i = start; i < end; i++) {
+    const checkedRadio = document.querySelector(`input[name="q${i}"]:checked`);
+    if (checkedRadio) {
+      answers[i] = parseInt(checkedRadio.value);
+    }
+  }
+}
+
+nextBtn.addEventListener('click', () => {
+  if (validatePage()) {
+    savePageAnswers();
+    currentPage++;
+    renderQuestions();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
+
+prevBtn.addEventListener('click', () => {
+  savePageAnswers();
+  currentPage--;
+  renderQuestions();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+function validatePage() {
+  const start = currentPage * questionsPerPage;
+  const end = Math.min(start + questionsPerPage, questions.length);
+
+  for (let i = start; i < end; i++) {
+    const radios = document.getElementsByName(`q${i}`);
+    if (![...radios].some(r => r.checked)) {
+      alert('Por favor, responda todas as perguntas desta página antes de continuar.');
+      return false;
+    }
+  }
+  return true;
+}
+
+function getDominantLoveLanguage(scores) {
+  let max = 0;
+  let dominant = '';
+  for (let type in scores) {
+    if (scores[type] > max) {
+      max = scores[type];
+      dominant = type;
+    }
+  }
+  return {
+    type: dominant,
+    score: max
+  };
+}
+
+function renderResults(scores) {
+  const dominant = getDominantLoveLanguage(scores);
+  const languageNames = {
+    palavras: "Palavras de Afirmação",
+    tempo: "Tempo de Qualidade",
+    presentes: "Presentes",
+    servicos: "Atos de Serviço",
+    toque: "Toque Físico"
+  };
+  
+  const languageDescriptions = {
+    palavras: "Você se sente mais amado(a) quando seu parceiro expressa verbalmente seu amor, apreciação e apoio. Elogios, palavras de encorajamento e mensagens carinhosas são essenciais para você.",
+    tempo: "Você valoriza tempo dedicado e atenção exclusiva. Momentos de qualidade juntos, conversas profundas e atividades compartilhadas são o que mais te faz sentir amado(a).",
+    presentes: "Para você, presentes são símbolos tangíveis de amor. Não precisa ser algo caro, mas sim algo que mostre que seu parceiro pensou em você e conhece seus gostos.",
+    servicos: "Ações falam mais que palavras para você. Quando seu parceiro faz coisas para te ajudar ou facilitar sua vida, você se sente verdadeiramente amado(a) e cuidado(a).",
+    toque: "Contato físico é sua principal forma de sentir conexão e amor. Abraços, beijos, carícias e proximidade física são essenciais para você se sentir amado(a)."
+  };
+  
+  const languageExamples = {
+    palavras: [
+      "Elogios sinceros ('Você está linda hoje')",
+      "Mensagens de amor e apreciação",
+      "Palavras de encorajamento ('Você consegue!')",
+      "Reconhecimento verbal de suas qualidades",
+      "Cartas ou bilhetes de amor"
+    ],
+    tempo: [
+      "Conversas sem distrações (celular desligado)",
+      "Atividades feitas juntos com atenção total",
+      "Olhos nos olhos durante conversas",
+      "Passeios ou viagens planejados a dois",
+      "Noites de encontro regulares"
+    ],
+    presentes: [
+      "Flores ou pequenos mimos inesperados",
+      "Presentes que mostram que ele(a) te conhece",
+      "Lembrancinhas de viagens",
+      "Itens personalizados com significado especial",
+      "Presentes em datas comemorativas"
+    ],
+    servicos: [
+      "Fazer tarefas domésticas sem ser pedido",
+      "Preparar seu café da manhã favorito",
+      "Consertar algo que está quebrado",
+      "Ajudar com responsabilidades quando você está ocupado",
+      "Planejar algo especial para te surpreender"
+    ],
+    toque: [
+      "Abraços demorados e frequentes",
+      "Segurar as mãos em público",
+      "Massagens ou carícias",
+      "Beijos espontâneos",
+      "Proximidade física ao assistir TV ou conversar"
+    ]
+  };
+  
+  // Calculate percentages
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+  const percentages = {};
+  for (let type in scores) {
+    percentages[type] = ((scores[type] / total) * 100).toFixed(1);
+  }
+  
+  // Create chart
+  resultDiv.innerHTML = `
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Sua Linguagem do Amor</h2>
+      <p class="lead">Sua linguagem predominante para dar e receber amor é:</p>
+      <span class="dominant-badge d-inline-block mb-3">${languageNames[dominant.type]} (${percentages[dominant.type]}%)</span>
+      <p>${languageDescriptions[dominant.type]}</p>
+    </div>
+    
+    <div class="chart-container">
+      <canvas id="loveChart"></canvas>
+    </div>
+    
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="love-card palavras-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="fw-bold mb-0">Palavras de Afirmação</h4>
+            <span class="badge bg-light text-dark">${percentages.palavras}%</span>
+          </div>
+          <p>${languageDescriptions.palavras}</p>
+          <h5 class="mt-3 fw-semibold">Exemplos:</h5>
+          <ul class="trait-list">
+            ${languageExamples.palavras.map(example => `<li>${example}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-6 col-lg-4">
+        <div class="love-card tempo-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="fw-bold mb-0">Tempo de Qualidade</h4>
+            <span class="badge bg-light text-dark">${percentages.tempo}%</span>
+          </div>
+          <p>${languageDescriptions.tempo}</p>
+          <h5 class="mt-3 fw-semibold">Exemplos:</h5>
+          <ul class="trait-list">
+            ${languageExamples.tempo.map(example => `<li>${example}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-6 col-lg-4">
+        <div class="love-card presentes-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="fw-bold mb-0">Presentes</h4>
+            <span class="badge bg-light text-dark">${percentages.presentes}%</span>
+          </div>
+          <p>${languageDescriptions.presentes}</p>
+          <h5 class="mt-3 fw-semibold">Exemplos:</h5>
+          <ul class="trait-list">
+            ${languageExamples.presentes.map(example => `<li>${example}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-6 col-lg-6">
+        <div class="love-card servicos-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="fw-bold mb-0">Atos de Serviço</h4>
+            <span class="badge bg-light text-dark">${percentages.servicos}%</span>
+          </div>
+          <p>${languageDescriptions.servicos}</p>
+          <h5 class="mt-3 fw-semibold">Exemplos:</h5>
+          <ul class="trait-list">
+            ${languageExamples.servicos.map(example => `<li>${example}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-6 col-lg-6">
+        <div class="love-card toque-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="fw-bold mb-0">Toque Físico</h4>
+            <span class="badge bg-light text-dark">${percentages.toque}%</span>
+          </div>
+          <p>${languageDescriptions.toque}</p>
+          <h5 class="mt-3 fw-semibold">Exemplos:</h5>
+          <ul class="trait-list">
+            ${languageExamples.toque.map(example => `<li>${example}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-4 p-4 bg-light rounded">
+      <h4 class="fw-bold">Sobre as 5 Linguagens do Amor</h4>
+      <p>A teoria das 5 Linguagens do Amor foi desenvolvida pelo Dr. Gary Chapman em seu livro best-seller. Ele identificou cinco maneiras principais pelas quais as pessoas expressam e interpretam o amor em relacionamentos.</p>
+      <p class="mb-0">É comum termos uma linguagem primária e uma secundária. Conflitos muitas vezes surgem quando parceiros têm linguagens diferentes. O segredo é aprender a "falar" a linguagem do outro, mesmo que não seja natural para você.</p>
+    </div>
+    
+    <div class="d-flex justify-content-center gap-3 mt-4">
+      <button id="exportPdf" class="btn btn-primary">
+        <i class="bi bi-file-earmark-pdf"></i> Exportar PDF
+      </button>
+      <button id="shareResults" class="btn btn-success">
+        <i class="bi bi-share"></i> Compartilhar
+      </button>
+      <button id="retakeTest" class="btn btn-secondary">
+        <i class="bi bi-arrow-repeat"></i> Refazer Teste
+      </button>
+    </div>
+  `;
+  
+  // Initialize chart
+  const ctx = document.getElementById('loveChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Palavras', 'Tempo', 'Presentes', 'Serviços', 'Toque'],
+      datasets: [{
+        label: 'Porcentagem da sua linguagem',
+        data: [percentages.palavras, percentages.tempo, percentages.presentes, percentages.servicos, percentages.toque],
+        backgroundColor: [
+          'rgba(230, 57, 70, 0.7)',
+          'rgba(69, 123, 157, 0.7)',
+          'rgba(244, 162, 97, 0.7)',
+          'rgba(42, 157, 143, 0.7)',
+          'rgba(157, 78, 221, 0.7)'
+        ],
+        borderColor: [
+          'rgba(230, 57, 70, 1)',
+          'rgba(69, 123, 157, 1)',
+          'rgba(244, 162, 97, 1)',
+          'rgba(42, 157, 143, 1)',
+          'rgba(157, 78, 221, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: {
+            callback: function(value) {
+              return value + '%';
+            }
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.parsed.y + '%';
+            }
+          }
+        }
+      }
+    }
+  });
+  
+  // Set up event listeners for new buttons
+  document.getElementById('exportPdf').addEventListener('click', exportToPdf);
+  document.getElementById('shareResults').addEventListener('click', showShareModal);
+  document.getElementById('retakeTest').addEventListener('click', resetTest);
+  
+  // Set up share modal content
+  setupShareModal(languageNames[dominant.type], percentages[dominant.type]);
+  
+  // Scroll to results
+  setTimeout(() => {
+    resultDiv.scrollIntoView({ behavior: 'smooth' });
+  }, 300);
+  
+  // Show floating button
+  floatingBtn.classList.remove('hidden');
+}
+
+function exportToPdf() {
+  // Primeiro, clonamos o elemento para não afetar o original
+  const element = document.getElementById('result');
+  const clone = element.cloneNode(true);
+  
+  // Removemos os botões do clone para não aparecerem no PDF
+  const buttons = clone.querySelectorAll('button');
+  buttons.forEach(btn => btn.remove());
+  
+  // Configurações do PDF
+  const opt = {
+    margin: 10,
+    filename: 'linguagens_do_amor_resultado.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { 
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      logging: true
+    },
+    jsPDF: { 
+      unit: 'mm', 
+      format: 'a4', 
+      orientation: 'portrait' 
+    }
+  };
+
+  // Adicionamos um elemento temporário para o clone
+  clone.style.position = 'absolute';
+  clone.style.left = '-9999px';
+  document.body.appendChild(clone);
+
+  // Feedback visual para o usuário
+  const exportBtn = document.getElementById('exportPdf');
+  const originalHtml = exportBtn.innerHTML;
+  exportBtn.innerHTML = '<i class="bi bi-hourglass"></i> Gerando PDF...';
+  exportBtn.disabled = true;
+
+  // Geramos o PDF
+  html2pdf().from(clone).set(opt).save().then(() => {
+    // Restauramos o botão
+    exportBtn.innerHTML = '<i class="bi bi-check-circle"></i> PDF Gerado!';
+    exportBtn.classList.remove('btn-primary');
+    exportBtn.classList.add('btn-success');
+    
+    // Removemos o clone após a geração do PDF
+    document.body.removeChild(clone);
+    
+    // Restauramos o botão após 2 segundos
+    setTimeout(() => {
+      exportBtn.innerHTML = originalHtml;
+      exportBtn.classList.remove('btn-success');
+      exportBtn.classList.add('btn-primary');
+      exportBtn.disabled = false;
+    }, 2000);
+  }).catch(err => {
+    console.error('Erro ao gerar PDF:', err);
+    document.body.removeChild(clone);
+    
+    // Feedback de erro
+    exportBtn.innerHTML = '<i class="bi bi-exclamation-triangle"></i> Erro';
+    exportBtn.classList.remove('btn-primary');
+    exportBtn.classList.add('btn-danger');
+    
+    setTimeout(() => {
+      exportBtn.innerHTML = originalHtml;
+      exportBtn.classList.remove('btn-danger');
+      exportBtn.classList.add('btn-primary');
+      exportBtn.disabled = false;
+    }, 2000);
+    
+    alert('Ocorreu um erro ao gerar o PDF. Por favor, tente novamente.');
+  });
+}
+
+
+function showShareModal() {
+  shareModal.show();
+}
+
+function setupShareModal(dominantLanguage, dominantPercentage) {
+  // Set the current URL as share link
+  shareLink.value = window.location.href.split('?')[0];
+  
+  // Create share message
+  const shareMessage = `Descobri que minha principal linguagem do amor é ${dominantLanguage} (${dominantPercentage}%)! Faça o teste e descubra a sua também: ${shareLink.value}`;
+  
+  // Set up share buttons
+  document.getElementById('facebookShare').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink.value)}&quote=${encodeURIComponent(shareMessage)}`;
+  document.getElementById('twitterShare').href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareMessage)}`;
+  document.getElementById('whatsappShare').href = `https://wa.me/?text=${encodeURIComponent(shareMessage)}`;
+  document.getElementById('linkedinShare').href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareLink.value)}&title=${encodeURIComponent('Minha Linguagem do Amor')}&summary=${encodeURIComponent(shareMessage)}`;
+  
+  // Set up copy link button
+  copyLinkBtn.addEventListener('click', () => {
+    shareLink.select();
+    document.execCommand('copy');
+    copyLinkBtn.innerHTML = '<i class="bi bi-check"></i>';
+    setTimeout(() => {
+      copyLinkBtn.innerHTML = '<i class="bi bi-clipboard"></i>';
+    }, 2000);
+  });
+}
+
+function resetTest() {
+  currentPage = 0;
+  answers = Array(questions.length).fill(null);
+  resultDiv.classList.add('d-none');
+  document.getElementById('quizForm').classList.remove('d-none');
+  renderQuestions();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  floatingBtn.classList.add('hidden');
+}
+
+document.getElementById('quizForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  savePageAnswers();
+
+  let scores = { 
+    palavras: 0, 
+    tempo: 0, 
+    presentes: 0, 
+    servicos: 0, 
+    toque: 0 
+  };
+
+  questions.forEach((q, index) => {
+    if (answers[index] !== null) {
+      const selectedOption = q.options[answers[index]];
+      scores[selectedOption.type]++;
+    }
+  });
+
+  document.getElementById('quizForm').classList.add('d-none');
+  resultDiv.classList.remove('d-none');
+  
+  renderResults(scores);
+});
+
+// Floating button functionality
+floatingBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+window.addEventListener('scroll', () => {
+  if (window.pageYOffset > 300) {
+    floatingBtn.classList.remove('hidden');
+  } else {
+    floatingBtn.classList.add('hidden');
+  }
+});
+
+// Initialize
+renderQuestions();
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teste de Tipos de Inteligência</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --linguistica: #3498db;
+      --logica: #2ecc71;
+      --espacial: #9b59b6;
+      --corporal: #e74c3c;
+      --musical: #f39c12;
+      --interpessoal: #1abc9c;
+      --intrapessoal: #34495e;
+      --naturalista: #27ae60;
+      --existencial: #7f8c8d;
+      --light-bg: #f8f9fa;
+      --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light-bg);
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 800px;
+    }
+    
+    .header {
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .progress-container {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .progress {
+      height: 12px;
+      background-color: #e9ecef;
+      border-radius: 6px;
+    }
+    
+    .progress-bar {
+      background: var(--primary-gradient);
+      transition: width 0.6s ease;
+    }
+    
+    .question-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .question-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+    
+    .form-check-input:checked {
+      background-color: #6a11cb;
+      border-color: #6a11cb;
+    }
+    
+    .btn-primary {
+      background: var(--primary-gradient);
+      border: none;
+      padding: 0.5rem 1.5rem;
+      font-weight: 500;
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #5a0bb5, #1a66e0);
+    }
+    
+    .btn-outline-secondary {
+      padding: 0.5rem 1.5rem;
+      font-weight: 500;
+    }
+    
+    .result-container {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-top: 2rem;
+      box-shadow: var(--card-shadow);
+      animation: fadeIn 0.8s ease;
+    }
+    
+    .intelligence-card {
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: white;
+      transition: transform 0.3s ease;
+    }
+    
+    .intelligence-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .linguistica-card {
+      background: linear-gradient(135deg, var(--linguistica), #2980b9);
+    }
+    
+    .logica-card {
+      background: linear-gradient(135deg, var(--logica), #27ae60);
+    }
+    
+    .espacial-card {
+      background: linear-gradient(135deg, var(--espacial), #8e44ad);
+    }
+    
+    .corporal-card {
+      background: linear-gradient(135deg, var(--corporal), #c0392b);
+    }
+    
+    .musical-card {
+      background: linear-gradient(135deg, var(--musical), #d35400);
+    }
+    
+    .interpessoal-card {
+      background: linear-gradient(135deg, var(--interpessoal), #16a085);
+    }
+    
+    .intrapessoal-card {
+      background: linear-gradient(135deg, var(--intrapessoal), #2c3e50);
+    }
+    
+    .naturalista-card {
+      background: linear-gradient(135deg, var(--naturalista), #219955);
+    }
+    
+    .existencial-card {
+      background: linear-gradient(135deg, var(--existencial), #5d6d7e);
+    }
+    
+    .dominant-badge {
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #ff9a00, #ff6b00);
+      color: white;
+      font-weight: 600;
+    }
+    
+    .chart-container {
+      height: 300px;
+      margin: 2rem 0;
+    }
+    
+    .trait-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    
+    .trait-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .trait-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .intelligence-tip {
+      background: rgba(255,255,255,0.15);
+      padding: 0.75rem;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .floating-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 99;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .option-label {
+      font-weight: 500;
+      margin-left: 8px;
+    }
+    
+    @media (max-width: 768px) {
+      .header {
+        padding: 1.5rem;
+      }
+      
+      .question-card, .result-container {
+        padding: 1.25rem;
+      }
+      
+      .intelligence-card {
+        padding: 1rem;
+      }
+    }
+    .navbar-custom {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+  color: white;
+  font-weight: 500;
+}
+
+.navbar-custom .nav-link:hover {
+  color: rgba(255,255,255,0.8);
+}
+
+.dropdown-menu {
+  border: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border-radius: 10px;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1.5rem;
+}
+
+.dropdown-item:hover {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+  </style>
+</head>
+<body>
+   <!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="inicio.html">
+      <i class="bi bi-stars me-2"></i>Desenvolvimento Pessoal
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-clipboard-check me-2"></i>Testes
+          </a>
+           <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="temperamento.html">
+                <i class="bi bi-emoji-smile me-2"></i>Temperamento
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="DISC.html">
+                <i class="bi bi-person-lines-fill me-2"></i>Perfil DISC
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="amor.html">
+                <i class="bi bi-heart-fill me-2"></i>Linguagem do Amor
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="canal.html">
+                <i class="bi bi-book-half me-2"></i>Canal de Aprendizagem
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="inteligencia.html">
+                <i class="bi bi-lightbulb me-2"></i>Tipos de Inteligência
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-4">
+  <div class="header text-center">
+    <h1 class="fw-bold mb-3">Teste de Tipos de Inteligência</h1>
+    <p class="mb-0">Descubra seus tipos de inteligência predominantes baseado na teoria das Inteligências Múltiplas</p>
+  </div>
+
+  <div class="progress-container">
+    <div class="d-flex justify-content-between mb-2">
+      <span>Progresso</span>
+      <span id="progressText">0%</span>
+    </div>
+    <div class="progress">
+      <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <form id="quizForm">
+    <div id="questions"></div>
+
+    <div class="d-flex justify-content-between mt-4">
+      <button type="button" class="btn btn-outline-secondary" id="prevBtn" disabled>
+        <i class="bi bi-arrow-left"></i> Anterior
+      </button>
+      <button type="button" class="btn btn-primary" id="nextBtn">
+        Próximo <i class="bi bi-arrow-right"></i>
+      </button>
+      <button type="submit" class="btn btn-success hidden" id="submitBtn">
+        <i class="bi bi-check-circle"></i> Ver Resultados
+      </button>
+    </div>
+  </form>
+
+  <div id="result" class="result-container d-none">
+    <!-- Result content will be inserted here -->
+  </div>
+</div>
+
+<!-- Floating button for quick navigation -->
+<button id="floatingBtn" class="floating-btn btn btn-primary hidden">
+  <i class="bi bi-arrow-up"></i>
+</button>
+
+<!-- Chart.js for results visualization -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Baseado na teoria das Inteligências Múltiplas de Howard Gardner
+const questions = [
+  { 
+    text: "Quando você precisa aprender algo novo, prefere:", 
+    options: [
+      { text: "Ler sobre o assunto ou discutir com alguém", type: "linguistica" },
+      { text: "Analisar padrões, números ou lógica por trás", type: "logica" },
+      { text: "Ver diagramas, mapas mentais ou imagens", type: "espacial" },
+      { text: "Experimentar na prática, mexendo com as mãos", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Em seu tempo livre, você gosta mais de:", 
+    options: [
+      { text: "Ler livros, escrever ou jogar com palavras", type: "linguistica" },
+      { text: "Resolver quebra-cabeças ou problemas matemáticos", type: "logica" },
+      { text: "Desenhar, pintar ou trabalhar com imagens", type: "espacial" },
+      { text: "Fazer atividades físicas ou artesanato", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Quando ouve música, você:", 
+    options: [
+      { text: "Presta atenção na letra e no significado", type: "linguistica" },
+      { text: "Analisa a estrutura e padrões musicais", type: "logica" },
+      { text: "Visualiza cores ou imagens que a música evoca", type: "espacial" },
+      { text: "Move-se naturalmente seguindo o ritmo", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Em um grupo de pessoas, você normalmente:", 
+    options: [
+      { text: "Se comunica bem e gosta de conversar", type: "linguistica" },
+      { text: "Observa padrões de comportamento e interações", type: "logica" },
+      { text: "Percebe o ambiente e a disposição das pessoas", type: "espacial" },
+      { text: "Expressa-se através de gestos e linguagem corporal", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Quando precisa resolver um problema, você:", 
+    options: [
+      { text: "Fala sobre ele com outras pessoas", type: "linguistica" },
+      { text: "Divide em partes lógicas para analisar", type: "logica" },
+      { text: "Cria imagens mentais das possíveis soluções", type: "espacial" },
+      { text: "Age instintivamente para testar soluções", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Você se considera bom(a) em:", 
+    options: [
+      { text: "Contar histórias e convencer pessoas", type: "linguistica" },
+      { text: "Resolver problemas complexos e cálculos", type: "logica" },
+      { text: "Visualizar objetos em 3D ou ler mapas", type: "espacial" },
+      { text: "Atividades que requerem coordenação motora", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Quando criança, você gostava mais de:", 
+    options: [
+      { text: "Jogos com palavras, leitura e escrita", type: "linguistica" },
+      { text: "Quebra-cabeças, blocos de montar e números", type: "logica" },
+      { text: "Desenhar, colorir e atividades artísticas", type: "espacial" },
+      { text: "Brincadeiras físicas e esportes", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Em uma aula, você aprende melhor quando:", 
+    options: [
+      { text: "O professor explica verbalmente", type: "linguistica" },
+      { text: "São usados dados, gráficos e lógica", type: "logica" },
+      { text: "Há diagramas, vídeos ou demonstrações visuais", type: "espacial" },
+      { text: "Pode fazer atividades práticas", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Você tem facilidade para:", 
+    options: [
+      { text: "Aprender novos idiomas", type: "linguistica" },
+      { text: "Entender conceitos matemáticos abstratos", type: "logica" },
+      { text: "Lembrar de rostos e lugares", type: "espacial" },
+      { text: "Dançar ou imitar movimentos", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Quando está estudando, você:", 
+    options: [
+      { text: "Faz resumos escritos e lê em voz alta", type: "linguistica" },
+      { text: "Organiza informações em tabelas e categorias", type: "logica" },
+      { text: "Cria mapas mentais e usa cores", type: "espacial" },
+      { text: "Precise se mover ou usar objetos para aprender", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Você se destaca mais em:", 
+    options: [
+      { text: "Debates, oratória e escrita", type: "linguistica" },
+      { text: "Ciências exatas e raciocínio lógico", type: "logica" },
+      { text: "Artes visuais e design", type: "espacial" },
+      { text: "Esportes e expressão corporal", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Quando precisa se lembrar de algo, você:", 
+    options: [
+      { text: "Repete em voz alta ou associa a palavras", type: "linguistica" },
+      { text: "Cria padrões ou sequências lógicas", type: "logica" },
+      { text: "Visualiza a informação como uma imagem", type: "espacial" },
+      { text: "Associa a um movimento ou sensação física", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Em uma reunião social, você:", 
+    options: [
+      { text: "Conversa facilmente com várias pessoas", type: "linguistica" },
+      { text: "Observa as dinâmicas e padrões sociais", type: "logica" },
+      { text: "Percebe detalhes visuais do ambiente", type: "espacial" },
+      { text: "Expressa-se muito através de gestos", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Você tem mais habilidade para:", 
+    options: [
+      { text: "Expressar ideias com clareza", type: "linguistica" },
+      { text: "Resolver problemas complexos", type: "logica" },
+      { text: "Visualizar objetos de diferentes ângulos", type: "espacial" },
+      { text: "Controlar bem seus movimentos corporais", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Quando está em um museu, você:", 
+    options: [
+      { text: "Lê todas as descrições com atenção", type: "linguistica" },
+      { text: "Analisa a organização e classificação dos itens", type: "logica" },
+      { text: "Admira as formas, cores e composições", type: "espacial" },
+      { text: "Prefere exposições interativas que pode tocar", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Você se considera bom(a) em:", 
+    options: [
+      { text: "Contar piadas e histórias interessantes", type: "linguistica" },
+      { text: "Encontrar falhas em argumentos", type: "logica" },
+      { text: "Decorar ambientes e criar composições visuais", type: "espacial" },
+      { text: "Atividades que requerem destreza manual", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Quando está aprendendo algo novo, você:", 
+    options: [
+      { text: "Pergunta muito e discute o assunto", type: "linguistica" },
+      { text: "Busca entender os princípios por trás", type: "logica" },
+      { text: "Cria imagens mentais para entender", type: "espacial" },
+      { text: "Precisa praticar para realmente aprender", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Em uma discussão, você:", 
+    options: [
+      { text: "Articula bem seus argumentos verbalmente", type: "linguistica" },
+      { text: "Usa fatos e lógica para sustentar seu ponto", type: "logica" },
+      { text: "Usa analogias visuais para explicar", type: "espacial" },
+      { text: "Expressa-se muito com gestos e expressões", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Você tem mais facilidade para:", 
+    options: [
+      { text: "Aprender vocabulário novo", type: "linguistica" },
+      { text: "Resolver enigmas e problemas matemáticos", type: "logica" },
+      { text: "Encontrar seu caminho em lugares novos", type: "espacial" },
+      { text: "Aprender danças ou movimentos complexos", type: "corporal" }
+    ]
+  },
+  { 
+    text: "Quando precisa explicar algo, você:", 
+    options: [
+      { text: "Descreve detalhadamente com palavras", type: "linguistica" },
+      { text: "Apresenta dados e argumentos lógicos", type: "logica" },
+      { text: "Desenha diagramas ou usa gestos visuais", type: "espacial" },
+      { text: "Demonstra fisicamente como funciona", type: "corporal" }
+    ]
+  }
+];
+
+const questionsDiv = document.getElementById('questions');
+const progressBar = document.getElementById('progressBar');
+const progressText = document.getElementById('progressText');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const submitBtn = document.getElementById('submitBtn');
+const floatingBtn = document.getElementById('floatingBtn');
+const resultDiv = document.getElementById('result');
+
+let currentPage = 0;
+const questionsPerPage = 4;
+let answers = Array(questions.length).fill(null);
+
+function renderQuestions() {
+  questionsDiv.innerHTML = '';
+  const start = currentPage * questionsPerPage;
+  const end = Math.min(start + questionsPerPage, questions.length);
+
+  for (let i = start; i < end; i++) {
+    const q = questions[i];
+    let optionsHtml = '';
+    
+    q.options.forEach((option, idx) => {
+      const isChecked = answers[i] === idx;
+      optionsHtml += `
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="radio" name="q${i}" id="q${i}-${idx}" value="${idx}" ${isChecked ? 'checked' : ''} required>
+          <label class="form-check-label option-label" for="q${i}-${idx}">${option.text}</label>
+        </div>
+      `;
+    });
+    
+    questionsDiv.innerHTML += `
+      <div class="question-card">
+        <h5 class="fw-semibold mb-3">${i + 1}. ${q.text}</h5>
+        ${optionsHtml}
+      </div>
+    `;
+  }
+
+  updateProgress();
+  prevBtn.disabled = currentPage === 0;
+  nextBtn.classList.toggle('hidden', end === questions.length);
+  submitBtn.classList.toggle('hidden', end !== questions.length);
+}
+
+function updateProgress() {
+  const totalPages = Math.ceil(questions.length / questionsPerPage);
+  const progress = ((currentPage + 1) / totalPages) * 100;
+  progressBar.style.width = progress + '%';
+  progressText.textContent = Math.round(progress) + '% completado';
+}
+
+function savePageAnswers() {
+  const start = currentPage * questionsPerPage;
+  const end = Math.min(start + questionsPerPage, questions.length);
+
+  for (let i = start; i < end; i++) {
+    const checkedRadio = document.querySelector(`input[name="q${i}"]:checked`);
+    if (checkedRadio) {
+      answers[i] = parseInt(checkedRadio.value);
+    }
+  }
+}
+
+nextBtn.addEventListener('click', () => {
+  if (validatePage()) {
+    savePageAnswers();
+    currentPage++;
+    renderQuestions();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
+
+prevBtn.addEventListener('click', () => {
+  savePageAnswers();
+  currentPage--;
+  renderQuestions();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+function validatePage() {
+  const start = currentPage * questionsPerPage;
+  const end = Math.min(start + questionsPerPage, questions.length);
+
+  for (let i = start; i < end; i++) {
+    const radios = document.getElementsByName(`q${i}`);
+    if (![...radios].some(r => r.checked)) {
+      alert('Por favor, responda todas as perguntas desta página antes de continuar.');
+      return false;
+    }
+  }
+  return true;
+}
+
+function getDominantIntelligence(scores) {
+  let max = 0;
+  let dominant = '';
+  for (let type in scores) {
+    if (scores[type] > max) {
+      max = scores[type];
+      dominant = type;
+    }
+  }
+  return {
+    type: dominant,
+    score: max
+  };
+}
+
+function renderResults(scores) {
+  const dominant = getDominantIntelligence(scores);
+  const intelligenceNames = {
+    linguistica: "Linguística-Verbal",
+    logica: "Lógico-Matemática",
+    espacial: "Espacial-Visual",
+    corporal: "Cinestésica-Corporal",
+    musical: "Musical-Rítmica",
+    interpessoal: "Interpessoal",
+    intrapessoal: "Intrapessoal",
+    naturalista: "Naturalista",
+    existencial: "Existencial"
+  };
+  
+  const intelligenceDescriptions = {
+    linguistica: "Habilidade com palavras e linguagem. Pessoas com essa inteligência têm facilidade para ler, escrever, contar histórias e aprender idiomas.",
+    logica: "Habilidade com números e raciocínio lógico. Excelentes em resolver problemas matemáticos, enigmas e pensar de forma analítica.",
+    espacial: "Habilidade de visualizar e manipular formas e espaços. Boas em navegação, arquitetura, artes visuais e pensamento tridimensional.",
+    corporal: "Habilidade de usar o corpo de forma habilidosa. Talentosos em esportes, dança, atuação e trabalhos manuais.",
+    musical: "Sensibilidade para sons, ritmos e música. Facilidade para cantar, tocar instrumentos, compor e apreciar música.",
+    interpessoal: "Habilidade de entender e interagir com outras pessoas. Boas em comunicação, liderança e trabalho em equipe.",
+    intrapessoal: "Habilidade de autoconhecimento e reflexão. Forte consciência de suas próprias emoções e motivações.",
+    naturalista: "Habilidade de reconhecer e classificar elementos da natureza. Interesse em animais, plantas e ecologia.",
+    existencial: "Habilidade de refletir sobre questões profundas da existência. Interesse em filosofia, espiritualidade e significado da vida."
+  };
+  
+  const intelligenceExamples = {
+    linguistica: ["Escritores", "Poetas", "Jornalistas", "Oradores", "Advogados"],
+    logica: ["Matemáticos", "Cientistas", "Engenheiros", "Programadores", "Analistas"],
+    espacial: ["Arquitetos", "Artistas", "Designers", "Navegadores", "Cirurgiões"],
+    corporal: ["Atletas", "Dançarinos", "Cirurgiões", "Artistas plásticos", "Atores"],
+    musical: ["Músicos", "Compositores", "Maestros", "Críticos musicais", "DJs"],
+    interpessoal: ["Professores", "Psicólogos", "Vendedores", "Líderes religiosos", "Políticos"],
+    intrapessoal: ["Filósofos", "Psicólogos", "Líderes espirituais", "Autores de autoajuda", "Terapeutas"],
+    naturalista: ["Biologos", "Botânicos", "Agricultores", "Chefs", "Geólogos"],
+    existencial: ["Filósofos", "Teólogos", "Físicos teóricos", "Escritores profundos", "Líderes espirituais"]
+  };
+  
+  const intelligenceCareers = {
+    linguistica: ["Escrita", "Jornalismo", "Direito", "Tradução", "Ensino"],
+    logica: ["Ciência", "Tecnologia", "Engenharia", "Finanças", "Pesquisa"],
+    espacial: ["Arquitetura", "Design", "Artes visuais", "Fotografia", "Cirurgia"],
+    corporal: ["Esportes", "Dança", "Fisioterapia", "Atuação", "Escultura"],
+    musical: ["Composição", "Performance musical", "Produção musical", "Musicoterapia", "Ensino musical"],
+    interpessoal: ["Psicologia", "Vendas", "Recursos humanos", "Diplomacia", "Ensino"],
+    intrapessoal: ["Psicologia", "Aconselhamento", "Filosofia", "Escrita criativa", "Pesquisa"],
+    naturalista: ["Biologia", "Agricultura", "Veterinária", "Botânica", "Geologia"],
+    existencial: ["Filosofia", "Teologia", "Psicologia", "Escrita", "Aconselhamento"]
+  };
+  
+  // Calculate percentages
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+  const percentages = {};
+  for (let type in scores) {
+    percentages[type] = ((scores[type] / total) * 100).toFixed(1);
+  }
+  
+  // Create chart
+  resultDiv.innerHTML = `
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Seus Tipos de Inteligência</h2>
+      <p class="lead">Sua inteligência predominante é:</p>
+      <span class="dominant-badge d-inline-block mb-3">${intelligenceNames[dominant.type]} (${percentages[dominant.type]}%)</span>
+      <p>${intelligenceDescriptions[dominant.type]}</p>
+    </div>
+    
+    <div class="chart-container">
+      <canvas id="intelligenceChart"></canvas>
+    </div>
+    
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="intelligence-card linguistica-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="fw-bold mb-0">Linguística</h4>
+            <span class="badge bg-light text-dark">${percentages.linguistica}%</span>
+          </div>
+          <p>${intelligenceDescriptions.linguistica}</p>
+          <h5 class="mt-3 fw-semibold">Exemplos:</h5>
+          <ul class="trait-list">
+            ${intelligenceExamples.linguistica.map(example => `<li>${example}</li>`).join('')}
+          </ul>
+          <h5 class="mt-3 fw-semibold">Carreiras:</h5>
+          <ul class="trait-list">
+            ${intelligenceCareers.linguistica.map(career => `<li>${career}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-6 col-lg-4">
+        <div class="intelligence-card logica-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="fw-bold mb-0">Lógico-Matemática</h4>
+            <span class="badge bg-light text-dark">${percentages.logica}%</span>
+          </div>
+          <p>${intelligenceDescriptions.logica}</p>
+          <h5 class="mt-3 fw-semibold">Exemplos:</h5>
+          <ul class="trait-list">
+            ${intelligenceExamples.logica.map(example => `<li>${example}</li>`).join('')}
+          </ul>
+          <h5 class="mt-3 fw-semibold">Carreiras:</h5>
+          <ul class="trait-list">
+            ${intelligenceCareers.logica.map(career => `<li>${career}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-6 col-lg-4">
+        <div class="intelligence-card espacial-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="fw-bold mb-0">Espacial-Visual</h4>
+            <span class="badge bg-light text-dark">${percentages.espacial}%</span>
+          </div>
+          <p>${intelligenceDescriptions.espacial}</p>
+          <h5 class="mt-3 fw-semibold">Exemplos:</h5>
+          <ul class="trait-list">
+            ${intelligenceExamples.espacial.map(example => `<li>${example}</li>`).join('')}
+          </ul>
+          <h5 class="mt-3 fw-semibold">Carreiras:</h5>
+          <ul class="trait-list">
+            ${intelligenceCareers.espacial.map(career => `<li>${career}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-6 col-lg-4">
+        <div class="intelligence-card corporal-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="fw-bold mb-0">Cinestésica-Corporal</h4>
+            <span class="badge bg-light text-dark">${percentages.corporal}%</span>
+          </div>
+          <p>${intelligenceDescriptions.corporal}</p>
+          <h5 class="mt-3 fw-semibold">Exemplos:</h5>
+          <ul class="trait-list">
+            ${intelligenceExamples.corporal.map(example => `<li>${example}</li>`).join('')}
+          </ul>
+          <h5 class="mt-3 fw-semibold">Carreiras:</h5>
+          <ul class="trait-list">
+            ${intelligenceCareers.corporal.map(career => `<li>${career}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-6 col-lg-4">
+        <div class="intelligence-card musical-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="fw-bold mb-0">Musical-Rítmica</h4>
+            <span class="badge bg-light text-dark">${percentages.musical}%</span>
+          </div>
+          <p>${intelligenceDescriptions.musical}</p>
+          <h5 class="mt-3 fw-semibold">Exemplos:</h5>
+          <ul class="trait-list">
+            ${intelligenceExamples.musical.map(example => `<li>${example}</li>`).join('')}
+          </ul>
+          <h5 class="mt-3 fw-semibold">Carreiras:</h5>
+          <ul class="trait-list">
+            ${intelligenceCareers.musical.map(career => `<li>${career}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-6 col-lg-4">
+        <div class="intelligence-card interpessoal-card">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h4 class="fw-bold mb-0">Interpessoal</h4>
+            <span class="badge bg-light text-dark">${percentages.interpessoal}%</span>
+          </div>
+          <p>${intelligenceDescriptions.interpessoal}</p>
+          <h5 class="mt-3 fw-semibold">Exemplos:</h5>
+          <ul class="trait-list">
+            ${intelligenceExamples.interpessoal.map(example => `<li>${example}</li>`).join('')}
+          </ul>
+          <h5 class="mt-3 fw-semibold">Carreiras:</h5>
+          <ul class="trait-list">
+            ${intelligenceCareers.interpessoal.map(career => `<li>${career}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-4 p-4 bg-light rounded">
+      <h4 class="fw-bold">Sobre as Inteligências Múltiplas</h4>
+      <p>A teoria das Inteligências Múltiplas foi desenvolvida pelo psicólogo Howard Gardner na década de 1980, questionando a visão tradicional de inteligência como uma capacidade única medida por testes de QI.</p>
+      <p class="mb-0">Segundo Gardner, todos possuem diferentes tipos de inteligência em graus variados. Conhecer seus pontos fortes pode ajudar a escolher carreiras, métodos de estudo e formas de resolver problemas que se alinhem com suas habilidades naturais.</p>
+    </div>
+    
+    <div class="text-center mt-4">
+      <button id="retakeTest" class="btn btn-primary">
+        <i class="bi bi-arrow-repeat"></i> Refazer Teste
+      </button>
+    </div>
+  `;
+  
+  // Initialize chart
+  const ctx = document.getElementById('intelligenceChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Linguística', 'Lógico-Matemática', 'Espacial', 'Cinestésica', 'Musical', 'Interpessoal', 'Intrapessoal', 'Naturalista', 'Existencial'],
+      datasets: [{
+        label: 'Porcentagem da sua inteligência',
+        data: [
+          percentages.linguistica, 
+          percentages.logica, 
+          percentages.espacial, 
+          percentages.corporal,
+          percentages.musical || 0,
+          percentages.interpessoal || 0,
+          percentages.intrapessoal || 0,
+          percentages.naturalista || 0,
+          percentages.existencial || 0
+        ],
+        backgroundColor: [
+          'rgba(52, 152, 219, 0.7)',
+          'rgba(46, 204, 113, 0.7)',
+          'rgba(155, 89, 182, 0.7)',
+          'rgba(231, 76, 60, 0.7)',
+          'rgba(243, 156, 18, 0.7)',
+          'rgba(26, 188, 156, 0.7)',
+          'rgba(52, 73, 94, 0.7)',
+          'rgba(39, 174, 96, 0.7)',
+          'rgba(127, 140, 141, 0.7)'
+        ],
+        borderColor: [
+          'rgba(52, 152, 219, 1)',
+          'rgba(46, 204, 113, 1)',
+          'rgba(155, 89, 182, 1)',
+          'rgba(231, 76, 60, 1)',
+          'rgba(243, 156, 18, 1)',
+          'rgba(26, 188, 156, 1)',
+          'rgba(52, 73, 94, 1)',
+          'rgba(39, 174, 96, 1)',
+          'rgba(127, 140, 141, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: {
+            callback: function(value) {
+              return value + '%';
+            }
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.parsed.y + '%';
+            }
+          }
+        }
+      }
+    }
+  });
+  
+  // Scroll to results
+  setTimeout(() => {
+    resultDiv.scrollIntoView({ behavior: 'smooth' });
+  }, 300);
+  
+  // Show floating button
+  floatingBtn.classList.remove('hidden');
+  
+  // Add retake test event
+  document.getElementById('retakeTest').addEventListener('click', () => {
+    resetTest();
+  });
+}
+
+function resetTest() {
+  currentPage = 0;
+  answers = Array(questions.length).fill(null);
+  resultDiv.classList.add('d-none');
+  document.getElementById('quizForm').classList.remove('d-none');
+  renderQuestions();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  floatingBtn.classList.add('hidden');
+}
+
+document.getElementById('quizForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  savePageAnswers();
+
+  let scores = { 
+    linguistica: 0, 
+    logica: 0, 
+    espacial: 0, 
+    corporal: 0,
+    musical: 0,
+    interpessoal: 0,
+    intrapessoal: 0,
+    naturalista: 0,
+    existencial: 0
+  };
+
+  questions.forEach((q, index) => {
+    if (answers[index] !== null) {
+      const selectedOption = q.options[answers[index]];
+      scores[selectedOption.type]++;
+    }
+  });
+
+  document.getElementById('quizForm').classList.add('d-none');
+  resultDiv.classList.remove('d-none');
+  
+  renderResults(scores);
+});
+
+// Floating button functionality
+floatingBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+window.addEventListener('scroll', () => {
+  if (window.pageYOffset > 300) {
+    floatingBtn.classList.remove('hidden');
+  } else {
+    floatingBtn.classList.add('hidden');
+  }
+});
+
+// Initialize
+renderQuestions();
+</script>
+
+</body>
+</html>
